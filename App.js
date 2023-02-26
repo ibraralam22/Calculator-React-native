@@ -1,10 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { View, Text, Switch } from 'react-native';
+import { View, Text, Switch, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [darkTheme, setDarkTheme] = useState(false);
-  const [result, setResult] = useState('Ibrar');
+  const [result, setResult] = useState('Display');
 
   const colors = {
     dark: '#22252D',
@@ -15,7 +15,33 @@ export default function App() {
     light2: '#F7F7F7',
   };
 
-  const getColor = (light, dark) => (darkTheme ? colors.dark : colors.light);
+  const Btn = ({ title }) => (
+    <TouchableOpacity
+      style={{
+        padding: 10,
+        borderRadius: 10,
+        elevation: 2,
+        backgroundColor: getColor(colors.light1, colors.dark2),
+        height: 70,
+        width: 70,
+        margin: 16,
+      }}
+    >
+      <Text
+        style={{
+          fontSize: 37,
+          color: 'black',
+          textAlign: 'center',
+          textAlignVertical: 'center',
+          // color:
+        }}
+      >
+        {title}
+      </Text>
+    </TouchableOpacity>
+  );
+
+  const getColor = (light, dark) => (darkTheme ? dark : light);
   return (
     <View
       style={{
@@ -43,6 +69,24 @@ export default function App() {
       >
         {result}
       </Text>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+        <Btn title={'7'} />
+        <Btn title={'8'} />
+        <Btn title={'9'} />
+        <Btn title={'%'} />
+        <Btn title={'4'} />
+        <Btn title={'5'} />
+        <Btn title={'6'} />
+        <Btn title={'-'} />
+        <Btn title={'1'} />
+        <Btn title={'2'} />
+        <Btn title={'3'} />
+        <Btn title={'+'} />
+        <Btn title={'00'} />
+        <Btn title={'0'} />
+        <Btn title={'.'} />
+        <Btn title={'='} />
+      </View>
     </View>
   );
 }
