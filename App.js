@@ -1,10 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { View, Text, Switch, TouchableOpacity } from 'react-native';
 
 export default function App() {
   const [darkTheme, setDarkTheme] = useState(false);
-  const [result, setResult] = useState('Display');
+  const [result, setResult] = useState('0');
 
   const colors = {
     dark: '#22252D',
@@ -15,8 +14,20 @@ export default function App() {
     light2: '#F7F7F7',
   };
 
-  const Btn = ({ title }) => (
+  const calculate = (title) => {
+    if (title == 'C') {
+      setResult('');
+    } else if (title == 'DL') {
+      setResult(result.substring(0, result.length - 1));
+    } else if (title == '=') {
+      const ans = Number(eval(result).toFixed(3)).toString();
+      setResult(ans);
+    } else setResult(result + title);
+  };
+
+  const Btn = ({ title, type }) => (
     <TouchableOpacity
+      onPress={() => calculate(title)}
       style={{
         padding: 10,
         borderRadius: 10,
@@ -33,13 +44,23 @@ export default function App() {
           color: 'black',
           textAlign: 'center',
           textAlignVertical: 'center',
-          // color:
+          color: getBtnColor(type),
         }}
       >
         {title}
       </Text>
     </TouchableOpacity>
   );
+
+  const getBtnColor = (type) => {
+    if (type == 'top') {
+      return '#35FBD6';
+    } else if (type == 'right') {
+      return '#EB6363';
+    } else {
+      return getColor(colors.dark, colors.light);
+    }
+  };
 
   const getColor = (light, dark) => (darkTheme ? dark : light);
   return (
@@ -60,32 +81,47 @@ export default function App() {
       />
       <Text
         style={{
-          fontSize: 40,
+          fontSize: 55,
           color: getColor(colors.dark, colors.light),
           width: '100%',
           textAlign: 'right',
           paddingRight: 20,
+          marginTop: 160,
+          paddingBottom: 20,
         }}
       >
         {result}
       </Text>
-      <View style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
-        <Btn title={'7'} />
-        <Btn title={'8'} />
-        <Btn title={'9'} />
-        <Btn title={'%'} />
-        <Btn title={'4'} />
-        <Btn title={'5'} />
-        <Btn title={'6'} />
-        <Btn title={'-'} />
-        <Btn title={'1'} />
-        <Btn title={'2'} />
-        <Btn title={'3'} />
-        <Btn title={'+'} />
-        <Btn title={'00'} />
-        <Btn title={'0'} />
-        <Btn title={'.'} />
-        <Btn title={'='} />
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          backgroundColor: getColor(colors.light1, colors.dark1),
+          borderTopRightRadius: 20,
+          borderTopLeftRadius: 20,
+        }}
+      >
+        <Btn title={'C'} type='top' />
+        <Btn title={'DL'} type='top' />
+        <Btn title={'/'} type='top' />
+        <Btn title={'%'} type='top' />
+        <Btn title={'7'} type='number' />
+        <Btn title={'8'} type='number' />
+        <Btn title={'9'} type='number' />
+        <Btn title={'*'} type='right' />
+        <Btn title={'4'} type='number' />
+        <Btn title={'5'} type='number' />
+        <Btn title={'6'} type='number' />
+        <Btn title={'-'} type='right' />
+        <Btn title={'1'} type='number' />
+        <Btn title={'2'} type='number' />
+        <Btn title={'3'} type='number' />
+        <Btn title={'+'} type='right' />
+        <Btn title={'00'} type='number' />
+        <Btn title={'0'} type='number' />
+        <Btn title={'.'} type='number' />
+        <Btn title={'='} type='right' />
       </View>
     </View>
   );
